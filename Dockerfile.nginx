@@ -1,0 +1,9 @@
+FROM node:alpine
+WORKDIR /blog
+COPY docker-entry.sh /docker-entry.sh
+RUN apk add nginx&& mkdir /var/run/nginx &&\
+    sed -i 's/return 404/root \/blog\/public/g' \/etc/nginx/conf.d/default.conf  &&\
+    npm install hexo -g &&\
+    hexo init  && hexo generate
+EXPOSE 80
+CMD ["/docker-entry.sh"]
